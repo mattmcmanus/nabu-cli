@@ -1,0 +1,45 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var program   = require('commander');
+    // util      = require('util'),
+    // fs        = require('fs'),
+var path      = require('path');
+
+
+var nabupath = path.resolve(process.cwd(), './node_modules/nabu');
+var nabu = require(nabupath);
+
+var generator = nabu();
+/**
+ * Options & Defaults
+ */
+
+program
+  .version(require('../package.json').version)
+  .option('-r, --raw', 'output \'raw\' comments, leaving the markdown intact');
+
+// examples
+program.on('--help', function(){
+  'use strict';
+  console.log('  Examples:');
+  console.log('');
+  console.log('    # stdin');
+  console.log('    $ dox-foundation > myfile.html');
+});
+
+program
+  .command('generate')
+  .description('display verbose help')
+  .action(function(){
+    'use strict';
+    console.log('Generating stuff and things');
+    generator.generate(function(err, results){
+      console.log("Done");
+    });
+  });
+
+ program.parse(process.argv);
