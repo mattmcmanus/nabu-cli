@@ -1,7 +1,7 @@
 {
   "name": "nabu-cli",
   "description": "Command line interface for nabu",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "homepage": "https://github.com/mattmcmanus/nabu-cli",
   "author": {
     "name": "Matt McManus",
@@ -32,7 +32,8 @@
     "test": "grunt nodeunit"
   },
   "dependencies": {
-    "commander": "~1.1.1"
+    "commander": "~1.1.1",
+    "node-static": "~0.6.9"
   },
   "peerDependencies": {
     "nabu": "0.1.x"

@@ -6,9 +6,9 @@
 
 var program   = require('commander');
     // util      = require('util'),
-    // fs        = require('fs'),
+var fs        = require('fs');
 var path      = require('path');
-
+var static = require('node-static');
 
 var nabupath = path.resolve(process.cwd(), './node_modules/nabu');
 var nabu = require(nabupath);
@@ -42,4 +42,26 @@ program
     });
   });
 
- program.parse(process.argv);
+program.command('server')
+  .description('Start up a local webserver on port '+generator.site.server_port)
+  .option("-w, --watch", "Watch for changes and regenerate the site")
+  .action(function(options){
+
+    if (options.watch) {
+      fs.watch('.', function (event, filename) {
+        generator.generate(function(err, results){
+          console.log("Site regenerated");
+        });
+      });
+    }
+
+    var fileServer = new static.Server(path.resolve(generator.site.destination), { cache: false });
+
+    require('http').createServer(function (request, response) {
+      fileServer.serve(request, response);
+    }).listen(generator.site.server_port);
+
+    console.log('Preview server listening on port '+generator.site.server_port);
+  })
+
+program.parse(process.argv);
