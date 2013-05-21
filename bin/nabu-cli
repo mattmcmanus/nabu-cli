@@ -6,6 +6,7 @@
 
 var program   = require('commander');
     // util      = require('util'),
+var assert        = require('assert');
 var fs        = require('fs');
 var path      = require('path');
 var static = require('node-static');
@@ -38,9 +39,11 @@ program
     'use strict';
     console.log('Generating stuff and things');
     generator.generate(function(err, results){
+      assert.ifError(err);
       console.log("Done");
     });
   });
+
 
 program.command('server')
   .description('Start up a local webserver on port '+generator.site.server_port)
@@ -50,6 +53,7 @@ program.command('server')
     if (options.watch) {
       fs.watch('.', function (event, filename) {
         generator.generate(function(err, results){
+          assert.ifError(err);
           console.log("Site regenerated");
         });
       });
@@ -62,6 +66,6 @@ program.command('server')
     }).listen(generator.site.server_port);
 
     console.log('Preview server listening on port '+generator.site.server_port);
-  })
+  });
 
 program.parse(process.argv);
