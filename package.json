@@ -28,9 +28,6 @@
   "engines": {
     "node": ">= 0.8.0"
   },
-  "scripts": {
-    "test": "grunt nodeunit"
-  },
   "dependencies": {
     "node-static": "~0.6.9",
     "optimist": "~0.6.0",
@@ -42,10 +39,6 @@
     "nabu": "0.1.x"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "~0.1.1",
-    "grunt-contrib-nodeunit": "~0.1.2",
-    "grunt-contrib-watch": "~0.2.0",
-    "grunt": "~0.4.0",
     "tap": "~0.4.3"
   },
   "keywords": []
