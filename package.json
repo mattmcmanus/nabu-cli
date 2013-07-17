@@ -32,8 +32,11 @@
     "test": "grunt nodeunit"
   },
   "dependencies": {
-    "commander": "~1.1.1",
-    "node-static": "~0.6.9"
+    "node-static": "~0.6.9",
+    "optimist": "~0.6.0",
+    "helmsman": "~0.2.0",
+    "colors": "~0.6.0-1",
+    "watch": "~0.8.0"
   },
   "peerDependencies": {
     "nabu": "0.1.x"
@@ -42,7 +45,8 @@
     "grunt-contrib-jshint": "~0.1.1",
     "grunt-contrib-nodeunit": "~0.1.2",
     "grunt-contrib-watch": "~0.2.0",
-    "grunt": "~0.4.0"
+    "grunt": "~0.4.0",
+    "tap": "~0.4.3"
   },
   "keywords": []
 }

@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+
+var optimist = require('optimist');
+var nbu = require('../utils.js')
+
+// Expose metadata for helmsman
+exports.command = {
+    description: 'Generate your site'
+};
+
+var argv = optimist.usage(exports.command.description).argv;
+
+var nabu = nbu.requireLocalNabu()();
+
+
+if (require.main === module) {
+  console.log(''); // Some padding for niceness
+
+  if (argv.help) {
+    return console.log(optimist.help());
+  }
+
+  nabu.generate(function(err, results){
+    nbu.ifError(err);
+    console.log("Generated");
+  });
+}

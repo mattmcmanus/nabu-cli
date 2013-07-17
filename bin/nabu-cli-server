@@ -1,0 +1,62 @@
+#!/usr/bin/env node
+
+var optimist = require('optimist');
+var fs        = require('fs');
+var path      = require('path');
+var static = require('node-static');
+var watch = require('watch');
+var nbu = require('../utils.js')
+
+// Expose metadata for helmsman
+exports.command = {
+  description: 'Start up a local webserver on your configured port'
+};
+
+
+var argv = optimist.usage(exports.command.description, {
+  'watch': {
+    description: 'Watch for changes and regenerate the site',
+    boolean: true,
+    short: 'w',
+  }
+}).argv;
+
+
+var nabu = nbu.requireLocalNabu()(); // instead of require('nabu')
+
+if (require.main === module) {
+  
+  function shouldIgnore(file) {
+    var ignore = false;
+    
+    nabu.site.ignore.forEach(function(pattern){
+       ignore = (ignore) ? ignore : (file.indexOf(pattern) !== -1);
+    });
+    
+    return ignore;
+  }
+
+  function regenerate(f) {
+    console.log("File changed (%s). Regenerating", f)
+    nabu.generate(function(err, results){
+      nbu.ifError(err);
+      console.log("Site regenerated");
+    });
+  }
+
+  if (argv.watch) {
+    watch.createMonitor(path.resolve('.'), {ignoreDotFiles: true, filter: shouldIgnore}, function (monitor) {
+      monitor.on("created", regenerate)
+      monitor.on("changed", regenerate)
+      monitor.on("removed", regenerate)
+    })
+  }
+
+  var fileServer = new static.Server(path.resolve(nabu.site.destination), { cache: false });
+
+  require('http').createServer(function (request, response) {
+    fileServer.serve(request, response);
+  }).listen(nabu.site.server_port);
+
+  console.log('Preview server listening on port '+nabu.site.server_port);
+}

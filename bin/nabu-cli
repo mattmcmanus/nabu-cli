@@ -1,71 +1,11 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
+var helmsman = require('helmsman');
 
-var program   = require('commander');
-    // util      = require('util'),
-var assert        = require('assert');
-var fs        = require('fs');
-var path      = require('path');
-var static = require('node-static');
+var cli = helmsman()
 
-var nabupath = path.resolve(process.cwd(), './node_modules/nabu');
-var nabu = require(nabupath);
+// cli.on('--help', function(){
+//   console.log('EXTRA HELPFUL!');
+// });
 
-var generator = nabu();
-/**
- * Options & Defaults
- */
-
-program
-  .version(require('../package.json').version)
-  .option('-r, --raw', 'output \'raw\' comments, leaving the markdown intact');
-
-// examples
-program.on('--help', function(){
-  'use strict';
-  console.log('  Examples:');
-  console.log('');
-  console.log('    # stdin');
-  console.log('    $ dox-foundation > myfile.html');
-});
-
-program
-  .command('generate')
-  .description('display verbose help')
-  .action(function(){
-    'use strict';
-    console.log('Generating stuff and things');
-    generator.generate(function(err, results){
-      assert.ifError(err);
-      console.log("Done");
-    });
-  });
-
-
-program.command('server')
-  .description('Start up a local webserver on port '+generator.site.server_port)
-  .option("-w, --watch", "Watch for changes and regenerate the site")
-  .action(function(options){
-
-    if (options.watch) {
-      fs.watch('.', function (event, filename) {
-        generator.generate(function(err, results){
-          assert.ifError(err);
-          console.log("Site regenerated");
-        });
-      });
-    }
-
-    var fileServer = new static.Server(path.resolve(generator.site.destination), { cache: false });
-
-    require('http').createServer(function (request, response) {
-      fileServer.serve(request, response);
-    }).listen(generator.site.server_port);
-
-    console.log('Preview server listening on port '+generator.site.server_port);
-  });
-
-program.parse(process.argv);
+cli.parse();
