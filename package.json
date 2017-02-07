@@ -29,17 +29,17 @@
     "node": ">= 0.8.0"
   },
   "dependencies": {
-    "node-static": "~0.6.9",
+    "node-static": "~0.7.9",
     "optimist": "~0.6.0",
-    "helmsman": "~0.2.0",
-    "colors": "~0.6.0-1",
-    "watch": "~0.8.0"
+    "helmsman": "~1.0.3",
+    "colors": "~1.1.2",
+    "watch": "~1.0.1"
   },
   "peerDependencies": {
     "nabu": "0.1.x"
   },
   "devDependencies": {
-    "tap": "~0.4.3"
+    "tap": "~10.0.2"
   },
   "keywords": []
 }
