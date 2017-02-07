@@ -1,5 +1,7 @@
 # nabu-cli
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/mattmcmanus/nabu-cli.svg)](https://greenkeeper.io/)
+
 The Command line interface for nabu
 
 ## Getting Started
